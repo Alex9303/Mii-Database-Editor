@@ -3,6 +3,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -14,9 +15,21 @@ public class Main {
             .collect(Collectors.toList());
     public static int selectedMiiIndex = -1;
     private static boolean gridExists = false;
+    public static String PATH = "";
 
 
     public static void main(String[] args) {
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals("--path")) {
+                if (i + 1 < args.length) {
+                    PATH = args[i + 1];
+                } else {
+                    System.err.println("Error: --path flag requires a path argument");
+                    System.exit(1);
+                }
+            }
+        }
+
         window = new Window();
 
         // Top level controls
@@ -85,25 +98,21 @@ public class Main {
         } else {
             try {
                 byte[] fileBytes = Files.readAllBytes(selectedFile.toPath());
-                byte[] fileHeader = Util.getBytesAtOffset(fileBytes, 0, 4);
+
                 System.out.println("Successfully loaded file");
+
+                byte[] fileHeader = Util.getBytesAtOffset(fileBytes, 0, 4);
+                byte[] fileChecksum = Util.getBytesAtOffset(fileBytes, 127454, 2);
+                byte[] calculatedChecksum = Util.calculateCRC16XModem(Util.getBytesAtOffset(fileBytes, 0, 127454));
+
+                if (Arrays.equals(fileChecksum, calculatedChecksum)) {
+                    System.out.println("File checksum matches");
+                } else {
+                    System.out.println("Warning! Checksum does not match");
+                }
 
                 if (Util.verifyHeader(fileHeader)) {
                     selectedMiiIndex = -1;
-
-                    window.textBox1.setEnabled(false);
-                    window.buttonLoadMii.setEnabled(false);
-                    window.buttonMiiDone.setEnabled(false);
-                    window.buttonClearMii.setEnabled(false);
-                    window.buttonSaveMii.setEnabled(false);
-                    window.textBoxSystemID.setEnabled(false);
-                    window.buttonSetSystemID.setEnabled(false);
-                    window.buttonSetAllSystemID.setEnabled(false);
-                    window.spinnerIndex.setEnabled(false);
-
-                    window.textBox1.setText("");
-                    window.textBoxSystemID.setText("");
-                    window.spinnerIndex.setValue(0);
 
                     byte[] miiData = Util.getBytesAtOffset(fileBytes, 4, 7400);
                     for (int i = 0; i < 100; i++) {
@@ -134,14 +143,22 @@ public class Main {
 
         if (saveFile != null) {
             String fileName = saveFile.getAbsolutePath();
-            byte[] saveData;
+            byte[] saveData = Util.buildFile();
+            byte[] miiData = Util.convertToSingleByteArray(miiDataList);
+
+            System.arraycopy(miiData, 0, saveData, 4, 7400);
+
+            byte[] checksum = Util.calculateCRC16XModem(Util.getBytesAtOffset(saveData, 0, 127454));
+            System.out.println("File checksum: " + Util.byteArrayToHexString(checksum));
+
+            System.arraycopy(checksum, 0, saveData, 127454, 2);
 
             if (!fileName.toLowerCase().endsWith(".dat")) {
                 fileName += ".dat";
             }
 
             try {
-                Files.write(new File(fileName).toPath(), miiDataList.get(selectedMiiIndex));
+                Files.write(new File(fileName).toPath(), saveData);
                 System.out.println("File saved successfully.");
             } catch (IOException ex) {
                 System.out.println("Error saving file: " + ex.getMessage());
@@ -150,7 +167,20 @@ public class Main {
     }
 
     private static void ButtonClean_Click() {
-        System.out.println("Implement " + "ButtonClean_Click");
+        int currentSlot = 0;
+        for (int i = 0; i < 100; i++) {
+            if (Util.isMii(miiDataList.get(i))) {
+                miiDataList.set(currentSlot, miiDataList.get(i));
+                if (i != currentSlot) {
+                    miiDataList.set(i, new byte[74]);
+                }
+                currentSlot += 1;
+            }
+        }
+
+        selectedMiiIndex = -1;
+
+        refreshGrid();
     }
 
     private static void ButtonLoadMii_Click() {
@@ -230,21 +260,6 @@ public class Main {
     private static void ButtonMiiDone_Click() {
         selectedMiiIndex = -1;
 
-        window.labelMii.setText("Select a Mii");
-        window.textBox1.setText("");
-        window.textBoxSystemID.setText("");
-        window.spinnerIndex.setValue(0);
-
-        window.textBox1.setEnabled(false);
-        window.buttonLoadMii.setEnabled(false);
-        window.buttonSaveMii.setEnabled(false);
-        window.buttonClearMii.setEnabled(false);
-        window.buttonMiiDone.setEnabled(false);
-        window.spinnerIndex.setEnabled(false);
-        window.textBoxSystemID.setEnabled(false);
-        window.buttonSetSystemID.setEnabled(false);
-        window.buttonSetAllSystemID.setEnabled(false);
-
         refreshGrid();
     }
 
@@ -301,6 +316,23 @@ public class Main {
     }
 
     private static void refreshGrid() {
+        if (selectedMiiIndex == -1) {
+            window.labelMii.setText("Select a Mii");
+            window.textBox1.setText("");
+            window.textBoxSystemID.setText("");
+            window.spinnerIndex.setValue(0);
+
+            window.textBox1.setEnabled(false);
+            window.buttonLoadMii.setEnabled(false);
+            window.buttonSaveMii.setEnabled(false);
+            window.buttonClearMii.setEnabled(false);
+            window.buttonMiiDone.setEnabled(false);
+            window.spinnerIndex.setEnabled(false);
+            window.textBoxSystemID.setEnabled(false);
+            window.buttonSetSystemID.setEnabled(false);
+            window.buttonSetAllSystemID.setEnabled(false);
+        }
+
         for (int i = 0; i < 100; i++) {
             if (Util.isMii(miiDataList.get(i))) {
                 window.buttons[i].setText(Util.getMiiName(miiDataList.get(i)));
