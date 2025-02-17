@@ -1,8 +1,11 @@
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.Point;
+import java.util.function.Consumer;
 
 public class Window extends JFrame {
     JButton buttonLoad;
@@ -169,8 +172,6 @@ public class Window extends JFrame {
     }
 
     private void buttonClick(int index) {
-//        System.out.println(index);
-
         for (int i = 0; i < 100; i++) {
             if (i == index) {
                 buttons[index].setBackground(Color.CYAN);
@@ -180,23 +181,33 @@ public class Window extends JFrame {
         }
 
         Main.GridButton_Click(index);
-
     }
-
-//    public void addButtonLoadActionListener(ActionListener listener) {
-//        buttonLoad.addActionListener(listener);
-//    }
-//
-//    public void addButtonSaveActionListener(ActionListener listener) {
-//        buttonSave.addActionListener(listener);
-//    }
 
     public void addButtonActionListener(JButton button, ActionListener listener) {
         button.addActionListener(listener);
     }
 
-    public void addSpinnerActionListener(JSpinner spinner, ChangeListener listener) {
+    public void addSpinnerChangeListener(JSpinner spinner, ChangeListener listener) {
         spinner.addChangeListener(listener);
+    }
+
+    public void addTextFieldKeyListener(JTextField textField, Consumer<KeyEvent> listener) {
+        textField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                listener.accept(e);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                listener.accept(e);
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                listener.accept(e);
+            }
+        });
     }
 
 }
