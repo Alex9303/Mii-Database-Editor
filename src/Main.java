@@ -33,10 +33,10 @@ public class Main {
         window.addButtonActionListener(window.buttonMiiDone, e -> ButtonMiiDone_Click());
         window.addSpinnerChangeListener(window.spinnerIndex, e -> NUDIndex_ValueChanged((Integer) window.spinnerIndex.getValue()));
 
-        // Mii Client ID management controls
-        window.addTextFieldKeyListener(window.textBoxClientID, e -> TextBoxClientID_TextChanged());
-        window.addButtonActionListener(window.buttonSetClientID, e -> ButtonSetClientID_Click());
-        window.addButtonActionListener(window.buttonSetAllClientID, e -> ButtonSetAllClientID_Click());
+        // Mii System ID management controls
+        window.addTextFieldKeyListener(window.textBoxSystemID, e -> TextBoxSystemID_TextChanged());
+        window.addButtonActionListener(window.buttonSetSystemID, e -> ButtonSetSystemID_Click());
+        window.addButtonActionListener(window.buttonSetAllSystemID, e -> ButtonSetAllSystemID_Click());
     }
 
     public static void GridButton_Click(int index) {
@@ -49,9 +49,9 @@ public class Main {
             window.buttonMiiDone.setEnabled(true);
             window.buttonClearMii.setEnabled(true);
             window.buttonSaveMii.setEnabled(true);
-            window.textBoxClientID.setEnabled(true);
-            window.buttonSetClientID.setEnabled(false);
-            window.buttonSetAllClientID.setEnabled(true);
+            window.textBoxSystemID.setEnabled(true);
+            window.buttonSetSystemID.setEnabled(false);
+            window.buttonSetAllSystemID.setEnabled(true);
 
             setMiiDataText(currentMiiData);
 
@@ -63,12 +63,12 @@ public class Main {
             window.buttonMiiDone.setEnabled(true);
             window.buttonClearMii.setEnabled(false);
             window.buttonSaveMii.setEnabled(false);
-            window.textBoxClientID.setEnabled(false);
-            window.buttonSetClientID.setEnabled(false);
-            window.buttonSetAllClientID.setEnabled(false);
+            window.textBoxSystemID.setEnabled(false);
+            window.buttonSetSystemID.setEnabled(false);
+            window.buttonSetAllSystemID.setEnabled(false);
 
             window.textBox1.setText("");
-            window.textBoxClientID.setText("");
+            window.textBoxSystemID.setText("");
         }
 
         window.spinnerIndex.setValue(selectedMiiIndex);
@@ -96,13 +96,13 @@ public class Main {
                     window.buttonMiiDone.setEnabled(false);
                     window.buttonClearMii.setEnabled(false);
                     window.buttonSaveMii.setEnabled(false);
-                    window.textBoxClientID.setEnabled(false);
-                    window.buttonSetClientID.setEnabled(false);
-                    window.buttonSetAllClientID.setEnabled(false);
+                    window.textBoxSystemID.setEnabled(false);
+                    window.buttonSetSystemID.setEnabled(false);
+                    window.buttonSetAllSystemID.setEnabled(false);
                     window.spinnerIndex.setEnabled(false);
 
                     window.textBox1.setText("");
-                    window.textBoxClientID.setText("");
+                    window.textBoxSystemID.setText("");
                     window.spinnerIndex.setValue(0);
 
                     byte[] miiData = Util.getBytesAtOffset(fileBytes, 4, 7400);
@@ -173,9 +173,9 @@ public class Main {
                     window.buttonMiiDone.setEnabled(true);
                     window.buttonClearMii.setEnabled(true);
                     window.buttonSaveMii.setEnabled(true);
-                    window.textBoxClientID.setEnabled(true);
-                    window.buttonSetClientID.setEnabled(false);
-                    window.buttonSetAllClientID.setEnabled(true);
+                    window.textBoxSystemID.setEnabled(true);
+                    window.buttonSetSystemID.setEnabled(false);
+                    window.buttonSetAllSystemID.setEnabled(true);
 
                     setMiiDataText(newMiiData);
 
@@ -215,13 +215,13 @@ public class Main {
 
             window.labelMii.setText("Empty Mii Slot at index " + selectedMiiIndex + ".");
             window.textBox1.setText("");
-            window.textBoxClientID.setText("");
+            window.textBoxSystemID.setText("");
 
             window.buttonSaveMii.setEnabled(false);
             window.buttonClearMii.setEnabled(false);
-            window.textBoxClientID.setEnabled(false);
-            window.buttonSetClientID.setEnabled(false);
-            window.buttonSetAllClientID.setEnabled(false);
+            window.textBoxSystemID.setEnabled(false);
+            window.buttonSetSystemID.setEnabled(false);
+            window.buttonSetAllSystemID.setEnabled(false);
 
             refreshGrid();
         }
@@ -232,7 +232,7 @@ public class Main {
 
         window.labelMii.setText("Select a Mii");
         window.textBox1.setText("");
-        window.textBoxClientID.setText("");
+        window.textBoxSystemID.setText("");
         window.spinnerIndex.setValue(0);
 
         window.textBox1.setEnabled(false);
@@ -241,9 +241,9 @@ public class Main {
         window.buttonClearMii.setEnabled(false);
         window.buttonMiiDone.setEnabled(false);
         window.spinnerIndex.setEnabled(false);
-        window.textBoxClientID.setEnabled(false);
-        window.buttonSetClientID.setEnabled(false);
-        window.buttonSetAllClientID.setEnabled(false);
+        window.textBoxSystemID.setEnabled(false);
+        window.buttonSetSystemID.setEnabled(false);
+        window.buttonSetAllSystemID.setEnabled(false);
 
         refreshGrid();
     }
@@ -259,44 +259,44 @@ public class Main {
         }
     }
 
-    private static void TextBoxClientID_TextChanged() {
-        String originalText = window.textBoxClientID.getText();
+    private static void TextBoxSystemID_TextChanged() {
+        String originalText = window.textBoxSystemID.getText();
         String newText = originalText.replaceAll("[^a-fA-F0-9]", "").toUpperCase();
 
         if (!newText.equals(originalText)) {
-            window.textBoxClientID.setText(newText);
+            window.textBoxSystemID.setText(newText);
         }
 
         if (!window.textBox1.getText().isEmpty()) {
-            window.buttonSetClientID.setEnabled(window.textBoxClientID.getText().length() == 8 && !window.textBoxClientID.getText().equals(window.textBox1.getText().substring(28 * 2, 28 * 2 + 8)));
-            window.buttonSetAllClientID.setEnabled(window.textBoxClientID.getText().length() == 8);
+            window.buttonSetSystemID.setEnabled(window.textBoxSystemID.getText().length() == 8 && !window.textBoxSystemID.getText().equals(window.textBox1.getText().substring(28 * 2, 28 * 2 + 8)));
+            window.buttonSetAllSystemID.setEnabled(window.textBoxSystemID.getText().length() == 8);
         }
     }
 
-    private static void ButtonSetClientID_Click() {
-        if (window.textBoxClientID.getText().length() == 8) {
-            byte[] newClientIDBytes = Util.hexStringToByteArray(window.textBoxClientID.getText());
-            miiDataList.set(selectedMiiIndex, Util.overwriteBytes(miiDataList.get(selectedMiiIndex), 28, newClientIDBytes));
+    private static void ButtonSetSystemID_Click() {
+        if (window.textBoxSystemID.getText().length() == 8) {
+            byte[] newSystemIDBytes = Util.hexStringToByteArray(window.textBoxSystemID.getText());
+            miiDataList.set(selectedMiiIndex, Util.overwriteBytes(miiDataList.get(selectedMiiIndex), 28, newSystemIDBytes));
 
             setMiiDataText(miiDataList.get(selectedMiiIndex));
-            window.buttonSetClientID.setEnabled(false);
+            window.buttonSetSystemID.setEnabled(false);
         }
     }
 
-    private static void ButtonSetAllClientID_Click() {
-        if (window.textBoxClientID.getText().length() == 8) {
-            System.out.println("All Mii Client IDs have been set to " + window.textBoxClientID.getText());
+    private static void ButtonSetAllSystemID_Click() {
+        if (window.textBoxSystemID.getText().length() == 8) {
+            System.out.println("All Mii System IDs have been set to " + window.textBoxSystemID.getText());
 
-            byte[] newClientIDBytes = Util.hexStringToByteArray(window.textBoxClientID.getText());
+            byte[] newSystemIDBytes = Util.hexStringToByteArray(window.textBoxSystemID.getText());
 
             for (int i = 0; i < 100; i++) {
                 if (Util.isMii(miiDataList.get(i))) {
-                    miiDataList.set(i, Util.overwriteBytes(miiDataList.get(i), 28, newClientIDBytes));
+                    miiDataList.set(i, Util.overwriteBytes(miiDataList.get(i), 28, newSystemIDBytes));
                 }
             }
 
             setMiiDataText(miiDataList.get(selectedMiiIndex));
-            window.buttonSetClientID.setEnabled(false);
+            window.buttonSetSystemID.setEnabled(false);
         }
     }
 
@@ -322,7 +322,7 @@ public class Main {
         String miiDataHexString = Util.byteArrayToHexString(currentMiiData);
         window.textBox1.setText(miiDataHexString);
         if (!miiDataHexString.isEmpty()) {
-            window.textBoxClientID.setText(miiDataHexString.substring(28 * 2, 28 * 2 + 8));
+            window.textBoxSystemID.setText(miiDataHexString.substring(28 * 2, 28 * 2 + 8));
         }
     }
 }

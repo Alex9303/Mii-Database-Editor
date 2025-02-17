@@ -13,9 +13,9 @@ public class Window extends JFrame {
     JButton buttonClean;
     JTextArea textBox1;
     JPanel panel1;
-    JButton buttonSetAllClientID;
-    JButton buttonSetClientID;
-    JTextField textBoxClientID;
+    JButton buttonSetAllSystemID;
+    JButton buttonSetSystemID;
+    JTextField textBoxSystemID;
     JSpinner spinnerIndex;
     JButton buttonSaveMii;
     JButton buttonClearMii;
@@ -89,20 +89,20 @@ public class Window extends JFrame {
         spinnerIndex.setEnabled(false);
         panel1.add(spinnerIndex);
 
-        textBoxClientID = new JTextField();
-        textBoxClientID.setBounds(buttonLoadMii.getX(), buttonMiiDone.getY() + buttonSize.height + padding, buttonSize.width, buttonSize.height);
-        textBoxClientID.setEnabled(false);
-        panel1.add(textBoxClientID);
+        textBoxSystemID = new JTextField();
+        textBoxSystemID.setBounds(buttonLoadMii.getX(), buttonMiiDone.getY() + buttonSize.height + padding, buttonSize.width, buttonSize.height);
+        textBoxSystemID.setEnabled(false);
+        panel1.add(textBoxSystemID);
 
-        buttonSetClientID = new JButton("Set Client ID");
-        buttonSetClientID.setBounds(textBoxClientID.getX() + buttonSize.width + padding, textBoxClientID.getY(), 103, buttonSize.height);
-        buttonSetClientID.setEnabled(false);
-        panel1.add(buttonSetClientID);
+        buttonSetSystemID = new JButton("Set System ID");
+        buttonSetSystemID.setBounds(textBoxSystemID.getX() + buttonSize.width + padding, textBoxSystemID.getY(), 103, buttonSize.height);
+        buttonSetSystemID.setEnabled(false);
+        panel1.add(buttonSetSystemID);
 
-        buttonSetAllClientID = new JButton("Set All Client ID");
-        buttonSetAllClientID.setBounds(buttonSetClientID.getX() + buttonSetClientID.getWidth() + padding, buttonSetClientID.getY(), 120, buttonSize.height);
-        buttonSetAllClientID.setEnabled(false);
-        panel1.add(buttonSetAllClientID);
+        buttonSetAllSystemID = new JButton("Set All System ID");
+        buttonSetAllSystemID.setBounds(buttonSetSystemID.getX() + buttonSetSystemID.getWidth() + padding, buttonSetSystemID.getY(), 120, buttonSize.height);
+        buttonSetAllSystemID.setEnabled(false);
+        panel1.add(buttonSetAllSystemID);
 
         textBox1 = new JTextArea();
         textBox1.setBounds(100, 100, 100, 100);
@@ -129,9 +129,9 @@ public class Window extends JFrame {
         buttonClearMii.setBounds(buttonSaveMii.getX() + buttonSize.width + padding, buttonSaveMii.getY(), buttonSize.width, buttonSize.height);
         buttonMiiDone.setBounds(buttonLoadMii.getX(), buttonLoadMii.getY() + buttonSize.height + padding, buttonSize.width, buttonSize.height);
         spinnerIndex.setBounds(buttonMiiDone.getX() + buttonSize.width + padding, buttonMiiDone.getY(), buttonSize.width, buttonSize.height);
-        textBoxClientID.setBounds(buttonLoadMii.getX(), buttonMiiDone.getY() + buttonSize.height + padding, buttonSize.width, buttonSize.height);
-        buttonSetClientID.setBounds(textBoxClientID.getX() + buttonSize.width + padding, textBoxClientID.getY(), 103, buttonSize.height);
-        buttonSetAllClientID.setBounds(buttonSetClientID.getX() + buttonSetClientID.getWidth() + padding, buttonSetClientID.getY(), 120, buttonSize.height);
+        textBoxSystemID.setBounds(buttonLoadMii.getX(), buttonMiiDone.getY() + buttonSize.height + padding, buttonSize.width, buttonSize.height);
+        buttonSetSystemID.setBounds(textBoxSystemID.getX() + buttonSize.width + padding, textBoxSystemID.getY(), 114, buttonSize.height);
+        buttonSetAllSystemID.setBounds(buttonSetSystemID.getX() + buttonSetSystemID.getWidth() + padding, buttonSetSystemID.getY(), 130, buttonSize.height);
 
         textBox1.setEnabled(true);
 
