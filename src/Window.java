@@ -28,7 +28,7 @@ public class Window extends JFrame {
     int padding = 6;
 
     public Window() {
-        setLayout(null); // Use null layout or replace with a suitable layout manager
+        setLayout(null);
         initializeComponents();
     }
 
@@ -36,7 +36,7 @@ public class Window extends JFrame {
         setTitle("Mii Database Editor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1484, 624);
-        setLayout(null); // Using null layout for custom positioning
+        setLayout(null);
 
         // Initialize components
         buttonLoad = new JButton("Load");
@@ -65,42 +65,34 @@ public class Window extends JFrame {
         panel1.add(labelMii);
 
         buttonLoadMii = new JButton("Load Mii");
-        buttonLoadMii.setBounds(5, 30, buttonSize.width, buttonSize.height);
         buttonLoadMii.setEnabled(false);
         panel1.add(buttonLoadMii);
 
         buttonSaveMii = new JButton("Save Mii");
-        buttonSaveMii.setBounds(buttonLoadMii.getX() + buttonSize.width + padding, buttonLoadMii.getY(), buttonSize.width, buttonSize.height);
         buttonSaveMii.setEnabled(false);
         panel1.add(buttonSaveMii);
 
         buttonClearMii = new JButton("Clear Mii");
-        buttonClearMii.setBounds(buttonSaveMii.getX() + buttonSize.width + padding, buttonSaveMii.getY(), buttonSize.width, buttonSize.height);
         buttonClearMii.setEnabled(false);
         panel1.add(buttonClearMii);
 
         buttonMiiDone = new JButton("Done");
-        buttonMiiDone.setBounds(buttonLoadMii.getX(), buttonLoadMii.getY() + buttonSize.height + padding, buttonSize.width, buttonSize.height);
         buttonMiiDone.setEnabled(false);
         panel1.add(buttonMiiDone);
 
         spinnerIndex = new JSpinner(new SpinnerNumberModel(0, 0, 99, 1));
-        spinnerIndex.setBounds(buttonMiiDone.getX() + buttonSize.width + padding, buttonMiiDone.getY(), buttonSize.width, buttonSize.height);
         spinnerIndex.setEnabled(false);
         panel1.add(spinnerIndex);
 
         textBoxSystemID = new JTextField();
-        textBoxSystemID.setBounds(buttonLoadMii.getX(), buttonMiiDone.getY() + buttonSize.height + padding, buttonSize.width, buttonSize.height);
         textBoxSystemID.setEnabled(false);
         panel1.add(textBoxSystemID);
 
         buttonSetSystemID = new JButton("Set System ID");
-        buttonSetSystemID.setBounds(textBoxSystemID.getX() + buttonSize.width + padding, textBoxSystemID.getY(), 103, buttonSize.height);
         buttonSetSystemID.setEnabled(false);
         panel1.add(buttonSetSystemID);
 
         buttonSetAllSystemID = new JButton("Set All System ID");
-        buttonSetAllSystemID.setBounds(buttonSetSystemID.getX() + buttonSetSystemID.getWidth() + padding, buttonSetSystemID.getY(), 120, buttonSize.height);
         buttonSetAllSystemID.setEnabled(false);
         panel1.add(buttonSetAllSystemID);
 
@@ -134,8 +126,19 @@ public class Window extends JFrame {
         buttonSetAllSystemID.setBounds(buttonSetSystemID.getX() + buttonSetSystemID.getWidth() + padding, buttonSetSystemID.getY(), 130, buttonSize.height);
 
         textBox1.setEnabled(true);
-
         panel1.setVisible(true);
+    }
+
+    private JButton createGridButton(int index, Point location, Dimension size, Color borderColor) {
+        JButton button = new JButton();
+        button.setSize(size);
+        button.setLocation(location);
+        button.setBackground(Color.LIGHT_GRAY);
+        button.setName("ButtonGrid" + index);
+        button.setMargin(new Insets(0, 0, 0, 0));
+        button.setBorder(BorderFactory.createLineBorder(borderColor));
+        button.addActionListener(e -> buttonClick(index));
+        return button;
     }
 
     public void CreateButtonGrid() {
@@ -145,29 +148,17 @@ public class Window extends JFrame {
 
         setupControls(gridOffset, gridButtonSize, gridPadding);
 
-        for (int row = 0; row <= 9; row++) {
-            for (int col = 0; col <= 9; col++) {
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 10; col++) {
                 int index = row * 10 + col;
-
-                Color borderColor = Color.RED;
-                String miiName = "";
-
-                JButton button = new JButton(miiName);
-                button.setSize(gridButtonSize);
-                button.setLocation(new Point(gridOffset.x + col * (gridButtonSize.width + gridPadding), gridOffset.y + row * (gridButtonSize.height + gridPadding)));
-                button.setBackground(Color.lightGray);
-                button.setName("ButtonGrid" + index);
-                button.setMargin(new Insets(gridPadding, gridPadding, gridPadding, gridPadding));
-                button.setBorder(BorderFactory.createLineBorder(borderColor));
-
-                button.addActionListener(e -> buttonClick(index));
-
-                add(button);
-
-                buttons[index] = button;
+                Point location = new Point(
+                        gridOffset.x + col * (gridButtonSize.width + gridPadding),
+                        gridOffset.y + row * (gridButtonSize.height + gridPadding)
+                );
+                buttons[index] = createGridButton(index, location, gridButtonSize, Color.RED);
+                add(buttons[index]);
             }
         }
-
         repaint();
     }
 
@@ -179,7 +170,6 @@ public class Window extends JFrame {
                 buttons[i].setBackground(Color.lightGray);
             }
         }
-
         Main.GridButton_Click(index);
     }
 
@@ -209,5 +199,4 @@ public class Window extends JFrame {
             }
         });
     }
-
 }

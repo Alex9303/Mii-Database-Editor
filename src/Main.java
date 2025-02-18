@@ -179,7 +179,6 @@ public class Main {
         }
 
         selectedMiiIndex = -1;
-
         refreshGrid();
     }
 
@@ -259,7 +258,6 @@ public class Main {
 
     private static void ButtonMiiDone_Click() {
         selectedMiiIndex = -1;
-
         refreshGrid();
     }
 
@@ -282,9 +280,15 @@ public class Main {
             window.textBoxSystemID.setText(newText);
         }
 
+        if (window.textBoxSystemID.getText().length() > 8) {
+            window.textBoxSystemID.setText(window.textBoxSystemID.getText().substring(0, 8));
+        }
+
         if (!window.textBox1.getText().isEmpty()) {
             window.buttonSetSystemID.setEnabled(window.textBoxSystemID.getText().length() == 8 && !window.textBoxSystemID.getText().equals(window.textBox1.getText().substring(28 * 2, 28 * 2 + 8)));
             window.buttonSetAllSystemID.setEnabled(window.textBoxSystemID.getText().length() == 8);
+        } else {
+            window.textBoxSystemID.setText("");
         }
     }
 
