@@ -125,9 +125,10 @@ public class Main {
                 byte[] calculatedChecksum = Util.calculateCRC16XModem(Util.getBytesAtOffset(fileBytes, 0, 127454));
 
                 if (Arrays.equals(fileChecksum, calculatedChecksum)) {
-                    System.out.println("File checksum matches");
+                    System.out.println("File checksum (" + Util.byteArrayToHexString(fileChecksum) + ") is valid");
                 } else {
-                    System.out.println("Warning! Checksum does not match");
+                    System.out.println("Warning! Checksum (" + Util.byteArrayToHexString(fileChecksum) + ") does not match calculated checksum (" + Util.byteArrayToHexString(calculatedChecksum) + ")");
+                    System.out.println("This will be corrected when file is saved");
                 }
 
                 if (Util.verifyHeader(fileHeader)) {
