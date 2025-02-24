@@ -188,10 +188,11 @@ public class Main {
 
     private static void ButtonClean_Click() {
         int keepSelectedMiiIndex = -1;
-        if (Util.isMii(miiDataList.get(selectedMiiIndex))) {
+        if (selectedMiiIndex != -1 && Util.isMii(miiDataList.get(selectedMiiIndex))) {
             keepSelectedMiiIndex = selectedMiiIndex;
         }
 
+        long startTime = System.nanoTime();
         int currentSlot = 0;
         for (int i = 0; i < 100; i++) {
             if (Util.isMii(miiDataList.get(i))) {
@@ -205,6 +206,8 @@ public class Main {
                 currentSlot += 1;
             }
         }
+        long endTime = System.nanoTime();
+        System.out.println("Sorting took: " + (endTime - startTime) + " ns");
 
         selectedMiiIndex = keepSelectedMiiIndex;
         window.spinnerIndex.setValue(selectedMiiIndex);

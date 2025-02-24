@@ -42,20 +42,24 @@ public class Window extends JFrame {
         // Initialize components
         buttonNew = new JButton("New");
         buttonNew.setBounds(12, 12, buttonSize.width, buttonSize.height);
+        buttonNew.setToolTipText("Create an empty Mii database");
         add(buttonNew);
 
         buttonLoad = new JButton("Load");
         buttonLoad.setBounds(buttonNew.getX() + buttonSize.width + padding, buttonNew.getY(), buttonSize.width, buttonSize.height);
+        buttonLoad.setToolTipText("Load Mii database");
         add(buttonLoad);
 
         buttonSave = new JButton("Save");
         buttonSave.setBounds(buttonLoad.getX() + buttonSize.width + padding, buttonLoad.getY(), buttonSize.width, buttonSize.height);
         buttonSave.setEnabled(false);
+        buttonSave.setToolTipText("Save Mii database to file");
         add(buttonSave);
 
         buttonClean = new JButton("Clean");
         buttonClean.setBounds(buttonSave.getX() + buttonSize.width + padding, buttonLoad.getY(), buttonSize.width, buttonSize.height);
         buttonClean.setEnabled(false);
+        buttonClean.setToolTipText("Reorganize Mii database");
         add(buttonClean);
 
         panel1 = new JPanel();
@@ -71,34 +75,42 @@ public class Window extends JFrame {
 
         buttonLoadMii = new JButton("Load Mii");
         buttonLoadMii.setEnabled(false);
+        buttonLoadMii.setToolTipText("Replace selected Mii slot with file");
         panel1.add(buttonLoadMii);
 
         buttonSaveMii = new JButton("Save Mii");
         buttonSaveMii.setEnabled(false);
+        buttonSaveMii.setToolTipText("Save selected Mii slot to file");
         panel1.add(buttonSaveMii);
 
         buttonClearMii = new JButton("Clear Mii");
         buttonClearMii.setEnabled(false);
+        buttonClearMii.setToolTipText("Clear selected Mii slot");
         panel1.add(buttonClearMii);
 
         buttonMiiDone = new JButton("Done");
         buttonMiiDone.setEnabled(false);
+        buttonMiiDone.setToolTipText("Deselect selected Mii slot");
         panel1.add(buttonMiiDone);
 
         spinnerIndex = new JSpinner(new SpinnerNumberModel(0, 0, 99, 1));
         spinnerIndex.setEnabled(false);
+        spinnerIndex.setToolTipText("Change index of selected Mii slot");
         panel1.add(spinnerIndex);
 
         textBoxSystemID = new JTextField();
         textBoxSystemID.setEnabled(false);
+        textBoxSystemID.setToolTipText("System ID of the selected Mii");
         panel1.add(textBoxSystemID);
 
         buttonSetSystemID = new JButton("Set System ID");
         buttonSetSystemID.setEnabled(false);
+        buttonSetSystemID.setToolTipText("Sets the System ID for the selected Mii");
         panel1.add(buttonSetSystemID);
 
         buttonSetAllSystemID = new JButton("Set All System ID");
         buttonSetAllSystemID.setEnabled(false);
+        buttonSetAllSystemID.setToolTipText("Sets the System ID for all Miis in the database to the selected Mii System ID");
         panel1.add(buttonSetAllSystemID);
 
         textBox1 = new JTextArea();
@@ -108,6 +120,7 @@ public class Window extends JFrame {
         textBox1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         textBox1.setEditable(false);
         textBox1.setEnabled(false);
+        textBox1.setToolTipText("Raw data of the selected Mii slot");
         panel1.add(textBox1);
 
         setVisible(true);
