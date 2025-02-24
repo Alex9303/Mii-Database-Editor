@@ -133,7 +133,6 @@ public class Window extends JFrame {
         textBox1.setLocation(5, 20);
         textBox1.setSize(panel1.getWidth() - 7 - textBox1.getX(), 75);
 
-
         buttonLoadMii.setBounds(5, textBox1.getY() + textBox1.getHeight() + padding, buttonSize.width, buttonSize.height);
         buttonSaveMii.setBounds(buttonLoadMii.getX() + buttonSize.width + padding, buttonLoadMii.getY(), buttonSize.width, buttonSize.height);
         buttonClearMii.setBounds(buttonSaveMii.getX() + buttonSize.width + padding, buttonSaveMii.getY(), buttonSize.width, buttonSize.height);
@@ -147,14 +146,14 @@ public class Window extends JFrame {
         panel1.setVisible(true);
     }
 
-    private JButton createGridButton(int index, Point location, Dimension size, Color borderColor) {
+    private JButton createGridButton(int index, Point location, Dimension size) {
         JButton button = new JButton();
         button.setSize(size);
         button.setLocation(location);
         button.setBackground(Color.LIGHT_GRAY);
         button.setName("ButtonGrid" + index);
         button.setMargin(new Insets(0, 0, 0, 0));
-        button.setBorder(BorderFactory.createLineBorder(borderColor));
+        button.setBorder(BorderFactory.createLineBorder(Color.RED));
         button.addActionListener(e -> buttonClick(index));
         return button;
     }
@@ -173,7 +172,7 @@ public class Window extends JFrame {
                         gridOffset.x + col * (gridButtonSize.width + gridPadding),
                         gridOffset.y + row * (gridButtonSize.height + gridPadding)
                 );
-                buttons[index] = createGridButton(index, location, gridButtonSize, Color.RED);
+                buttons[index] = createGridButton(index, location, gridButtonSize);
                 add(buttons[index]);
             }
         }
