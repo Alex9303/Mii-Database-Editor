@@ -33,6 +33,7 @@ public class Main {
         window = new Window();
 
         // Top level controls
+        window.addButtonActionListener(window.buttonNew, e -> ButtonNew_Click());
         window.addButtonActionListener(window.buttonLoad, e -> ButtonLoad_Click());
         window.addButtonActionListener(window.buttonSave, e -> ButtonSave_Click());
         window.addButtonActionListener(window.buttonClean, e -> ButtonClean_Click());
@@ -86,6 +87,24 @@ public class Main {
 
         window.spinnerIndex.setValue(selectedMiiIndex);
         window.spinnerIndex.setEnabled(true);
+    }
+
+    private static void ButtonNew_Click() {
+        selectedMiiIndex = -1;
+
+        for (int i = 0; i < 100; i++) {
+            miiDataList.set(i, new byte[74]);
+        }
+
+        if (!gridExists) {
+            window.CreateButtonGrid();
+            gridExists = true;
+        }
+
+        window.buttonSave.setEnabled(true);
+        window.buttonClean.setEnabled(true);
+
+        refreshGrid();
     }
 
     private static void ButtonLoad_Click() {
@@ -167,10 +186,18 @@ public class Main {
     }
 
     private static void ButtonClean_Click() {
+        int keepSelectedMiiIndex = -1;
+        if (Util.isMii(miiDataList.get(selectedMiiIndex))) {
+            keepSelectedMiiIndex = selectedMiiIndex;
+        }
+
         int currentSlot = 0;
         for (int i = 0; i < 100; i++) {
             if (Util.isMii(miiDataList.get(i))) {
                 miiDataList.set(currentSlot, miiDataList.get(i));
+                if (i == keepSelectedMiiIndex) {
+                    keepSelectedMiiIndex = currentSlot;
+                }
                 if (i != currentSlot) {
                     miiDataList.set(i, new byte[74]);
                 }
@@ -178,7 +205,8 @@ public class Main {
             }
         }
 
-        selectedMiiIndex = -1;
+        selectedMiiIndex = keepSelectedMiiIndex;
+        window.spinnerIndex.setValue(selectedMiiIndex);
         refreshGrid();
     }
 
@@ -262,7 +290,7 @@ public class Main {
     }
 
     private static void NUDIndex_ValueChanged(int value) {
-        if (window.spinnerIndex.isEnabled() && selectedMiiIndex > 0) {
+        if (window.spinnerIndex.isEnabled() && selectedMiiIndex != -1) {
             byte[] tempMiiData = miiDataList.get(selectedMiiIndex);
             miiDataList.set(selectedMiiIndex, miiDataList.get(value));
             miiDataList.set(value, tempMiiData);

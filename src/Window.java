@@ -8,6 +8,7 @@ import java.awt.Point;
 import java.util.function.Consumer;
 
 public class Window extends JFrame {
+    JButton buttonNew;
     JButton buttonLoad;
     JButton buttonSave;
     JButton buttonClean;
@@ -32,15 +33,19 @@ public class Window extends JFrame {
         initializeComponents();
     }
 
-    private void initializeComponents()  {
+    private void initializeComponents() {
         setTitle("Mii Database Editor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1484, 624);
         setLayout(null);
 
         // Initialize components
+        buttonNew = new JButton("New");
+        buttonNew.setBounds(12, 12, buttonSize.width, buttonSize.height);
+        add(buttonNew);
+
         buttonLoad = new JButton("Load");
-        buttonLoad.setBounds(12, 12, buttonSize.width, buttonSize.height);
+        buttonLoad.setBounds(buttonNew.getX() + buttonSize.width + padding, buttonNew.getY(), buttonSize.width, buttonSize.height);
         add(buttonLoad);
 
         buttonSave = new JButton("Save");
@@ -109,7 +114,7 @@ public class Window extends JFrame {
     }
 
     private void setupControls(Point gridOffset, Dimension gridButtonSize, int gridPadding) {
-        panel1.setLocation((gridButtonSize.width + gridPadding) * 9 + gridOffset.x + gridButtonSize.width + 6 , gridOffset.y);
+        panel1.setLocation((gridButtonSize.width + gridPadding) * 9 + gridOffset.x + gridButtonSize.width + 6, gridOffset.y);
         panel1.setSize(getSize().width - panel1.getX() - 24, (gridButtonSize.height + gridPadding) * 9 + gridButtonSize.height);
 
         textBox1.setLocation(5, 20);
@@ -142,7 +147,7 @@ public class Window extends JFrame {
     }
 
     public void CreateButtonGrid() {
-        Point gridOffset = new Point(buttonLoad.getX(), buttonLoad.getY() + buttonLoad.getHeight() + padding);
+        Point gridOffset = new Point(buttonNew.getX(), buttonNew.getY() + buttonNew.getHeight() + padding);
         Dimension gridButtonSize = new Dimension(100, 50);
         int gridPadding = 4;
 
