@@ -27,3 +27,8 @@ The Mii database ([RFL_DB.dat](https://wiibrew.org/wiki//shared2/menu/FaceLib/RF
 
 **Contributions Welcome:**  
 Have a suggestion or found an issue? Feel free to open an issue or submit a pull request!
+
+## Screenshots:
+*Main application window with a loaded Mii database:*
+
+![image](https://github.com/user-attachments/assets/b2c2c60c-48dd-4656-b308-9826428a39a3)
