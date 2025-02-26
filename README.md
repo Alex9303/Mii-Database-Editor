@@ -12,6 +12,7 @@ The Mii database ([RFL_DB.dat](https://wiibrew.org/wiki//shared2/menu/FaceLib/RF
 - Import/Export individual Miis.
 - Change System IDs of Miis (Miis from other Wiis cannot be edited on the Mii Channel).
 - Rearrange Mii data in the database (this does not affect functionality in the Mii Channel).
+- Render Miis directly within the app.
 
 **What it does NOT do:**
 - Edit Miis. Use these tools instead:
@@ -23,7 +24,6 @@ The Mii database ([RFL_DB.dat](https://wiibrew.org/wiki//shared2/menu/FaceLib/RF
 **Future Plans:**
 - Mii Parade support (View/Edit/Save Mii Parade data)
 - Modify Mii IDs (Miis with the same Mii ID can break certain games)
-- Render Miis directly within the app.
 
 **Contributions Welcome:**  
 Have a suggestion or found an issue? Feel free to open an issue or submit a pull request!
@@ -31,4 +31,4 @@ Have a suggestion or found an issue? Feel free to open an issue or submit a pull
 ## Screenshots:
 *Main application window with a loaded Mii database:*
 
-![image](https://github.com/user-attachments/assets/b2c2c60c-48dd-4656-b308-9826428a39a3)
+![image](https://github.com/user-attachments/assets/aa2324f5-3e0f-4eff-b285-4a9955fe44e5)

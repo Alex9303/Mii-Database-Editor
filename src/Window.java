@@ -5,6 +5,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.Point;
+import java.io.File;
 import java.util.function.Consumer;
 
 public class Window extends JFrame {
@@ -23,6 +24,8 @@ public class Window extends JFrame {
     JButton buttonMiiDone;
     JButton buttonLoadMii;
     JLabel labelMii;
+    JLabel labelMiiImage;
+    ImageIcon miiImage;
 
     JButton[] buttons = new JButton[100];
     Dimension buttonSize = new Dimension(83, 25);
@@ -123,6 +126,11 @@ public class Window extends JFrame {
         textBox1.setToolTipText("Raw data of the selected Mii slot");
         panel1.add(textBox1);
 
+        labelMiiImage = new JLabel();
+        labelMiiImage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        labelMiiImage.setVisible(false);
+        panel1.add(labelMiiImage);
+
         setVisible(true);
     }
 
@@ -141,6 +149,7 @@ public class Window extends JFrame {
         textBoxSystemID.setBounds(buttonLoadMii.getX(), buttonMiiDone.getY() + buttonSize.height + padding, buttonSize.width, buttonSize.height);
         buttonSetSystemID.setBounds(textBoxSystemID.getX() + buttonSize.width + padding, textBoxSystemID.getY(), 114, buttonSize.height);
         buttonSetAllSystemID.setBounds(buttonSetSystemID.getX() + buttonSetSystemID.getWidth() + padding, buttonSetSystemID.getY(), 130, buttonSize.height);
+        labelMiiImage.setBounds(panel1.getWidth() - 208, panel1.getHeight() - 208, 208, 208);
 
         textBox1.setEnabled(true);
         panel1.setVisible(true);
@@ -215,5 +224,12 @@ public class Window extends JFrame {
                 listener.accept(e);
             }
         });
+    }
+
+    public void setMiiIcon(File file) {
+        miiImage = new ImageIcon(file.getAbsolutePath());
+        System.out.println(file.getAbsolutePath());
+        Image scaledImage = miiImage.getImage().getScaledInstance(labelMiiImage.getWidth(), labelMiiImage.getHeight(), Image.SCALE_SMOOTH);
+        labelMiiImage.setIcon(new ImageIcon(scaledImage));
     }
 }

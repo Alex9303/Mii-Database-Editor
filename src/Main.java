@@ -9,14 +9,14 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Main {
-    private static Window window;
+    public static Window window;
     private static final List<byte[]> miiDataList = IntStream.range(0, 100)
             .mapToObj(i -> new byte[74])
             .collect(Collectors.toList());
     public static int selectedMiiIndex = -1;
     private static boolean gridExists = false;
     public static String PATH = "";
-
+    public static String CACHE_PATH = "Mii-Database-Editor-Cache";
 
     public static void main(String[] args) {
         for (int i = 0; i < args.length; i++) {
@@ -66,9 +66,10 @@ public class Main {
             window.textBoxSystemID.setEnabled(true);
             window.buttonSetSystemID.setEnabled(false);
             window.buttonSetAllSystemID.setEnabled(true);
+            window.labelMiiImage.setVisible(true);
 
             setMiiDataText(currentMiiData);
-
+            updateMiiIcon();
         } else {
             window.labelMii.setText("Empty Mii Slot at index " + selectedMiiIndex + ".");
 
@@ -80,6 +81,7 @@ public class Main {
             window.textBoxSystemID.setEnabled(false);
             window.buttonSetSystemID.setEnabled(false);
             window.buttonSetAllSystemID.setEnabled(false);
+            window.labelMiiImage.setVisible(false);
 
             window.textBox1.setText("");
             window.textBoxSystemID.setText("");
@@ -237,8 +239,10 @@ public class Main {
                     window.textBoxSystemID.setEnabled(true);
                     window.buttonSetSystemID.setEnabled(false);
                     window.buttonSetAllSystemID.setEnabled(true);
+                    window.labelMiiImage.setVisible(true);
 
                     setMiiDataText(newMiiData);
+                    updateMiiIcon();
 
                     refreshGrid();
                 } else {
@@ -283,6 +287,7 @@ public class Main {
             window.textBoxSystemID.setEnabled(false);
             window.buttonSetSystemID.setEnabled(false);
             window.buttonSetAllSystemID.setEnabled(false);
+            window.labelMiiImage.setVisible(false);
 
             refreshGrid();
         }
@@ -367,6 +372,7 @@ public class Main {
             window.textBoxSystemID.setEnabled(false);
             window.buttonSetSystemID.setEnabled(false);
             window.buttonSetAllSystemID.setEnabled(false);
+            window.labelMiiImage.setVisible(false);
         }
 
         for (int i = 0; i < 100; i++) {
@@ -392,5 +398,14 @@ public class Main {
         if (!miiDataHexString.isEmpty()) {
             window.textBoxSystemID.setText(miiDataHexString.substring(28 * 2, 28 * 2 + 8));
         }
+    }
+
+    private static void updateMiiIcon() {
+        if (selectedMiiIndex > -1) {
+            String miiStudioText = Util.encodeStudio(miiDataList.get(selectedMiiIndex));
+            ImageDownloader downloader = new ImageDownloader();
+            downloader.setWindowIcon(miiStudioText);
+        }
+
     }
 }
